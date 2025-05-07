@@ -1,6 +1,6 @@
 # 👗 Fashion Products Recommendation System
 
-![Fashion Banner](https://raw.githubusercontent.com/yourusername/fashion-recommender/main/examples/banner.jpg)
+![Fashion Banner](https://github.com/suyashmarathe512/suyash/blob/300c73370a97b36accfd047b291cad06dfad67ed/Fashion_Recommendation_System/170478150-9204c659-06a4-48bf-8420-5fee02a3c4d3.png)
 
 > A content-based fashion recommendation system that suggests visually similar products using deep learning and image embeddings.
 
@@ -22,13 +22,10 @@ This project implements a **Fashion Products Recommendation System** using a dee
 
 ## ⚙️ Workflow
 
-```mermaid
-graph TD
-    A[Image Dataset (6,000 Images)] --> B[Preprocessing]
-    B --> C[Feature Extraction (VGG16)]
-    C --> D[Save Feature Vectors]
-    D --> E[User Query Image]
-    E --> F[Extract Query Features]
-    F --> G[Cosine Similarity Comparison]
-    G --> H[Top-K Similar Images]
-    H --> I[Display Recommendations]
+![Work_Flow](https://github.com/suyashmarathe512/suyash/blob/eca4cc2dc5716a09e9b249b4ef4f05c4092f9ceb/Fashion_Recommendation_System/Workflow.png)
+
+## Input 
+![Input_Image](https://github.com/suyashmarathe512/suyash/blob/300c73370a97b36accfd047b291cad06dfad67ed/Fashion_Recommendation_System/download%20(1).png)
+
+## Output
+![Recommend_Products](https://github.com/suyashmarathe512/suyash/blob/300c73370a97b36accfd047b291cad06dfad67ed/Fashion_Recommendation_System/download%20(2).png)
