@@ -7,7 +7,6 @@ st.set_page_config(page_title="CBT AI Therapist", page_icon="🧠", layout="cent
 
 # ========== SIDEBAR ==========
 with st.sidebar:
-    st.image("logo.jpg", width=150)
     st.markdown("### 🧠 AI CBT Therapist")
     st.markdown("#### Models in Use:")
     st.markdown("- 🧩 LLaMA 3.3 via Ollama")
