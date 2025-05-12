@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import streamlit as st
 import requests
 import joblib
@@ -5,71 +7,95 @@ import joblib
 # ========== CONFIG ==========
 st.set_page_config(page_title="CBT AI Therapist", page_icon="🧠", layout="centered")
 
-# ========== SIDEBAR ==========
-with st.sidebar:
-    st.markdown("### 🧠 AI CBT Therapist")
-    st.markdown("#### Models in Use:")
-    st.markdown("- 🧩 LLaMA 3.3 via Ollama")
-    st.markdown("- 💬 SVC Sentiment Classifier")
-    st.markdown("---")
-    st.info("Feel safe to talk. This app does **not store** your data.")
+# ========== BASE DIRECTORY ==========
+BASE_DIR = Path(__file__).parent
+
+# ========== SIDEBAR UI & ASSETS ==========
+# Load logo
+logo_path = BASE_DIR / "assets" / "logo.png"
+if logo_path.exists():
+    st.sidebar.image(str(logo_path), width=150)
+
+st.sidebar.markdown("### 🧠 AI CBT Therapist")
+st.sidebar.markdown("#### Models in Use:")
+st.sidebar.markdown("- 🧩 Fine-tuned LLaMA via Ollama")
+st.sidebar.markdown("- 💬 SVC Sentiment Classifier")
+st.sidebar.markdown("---")
+st.sidebar.info("Feel safe to talk. This app does **not store** your data.")
 
 # ========== LOAD SENTIMENT MODEL ==========
+model_path = BASE_DIR / "sentiment_svc_model.joblib"
+
 @st.cache_resource
-def load_sentiment_model():
-    return joblib.load("sentiment_svc_model.joblib")  # Replace with your model filename
+def load_sentiment_model(path: Path):
+    if not path.exists():
+        st.error(f"❌ Sentiment model not found at {path}")
+        st.stop()
+    return joblib.load(path)
 
-sentiment_model = load_sentiment_model()
+sentiment_model = load_sentiment_model(model_path)
 
-def predict_sentiment(text):
-    return sentiment_model.predict([text])[0]
+# ========== SENTIMENT PREDICTION ==========
+def predict_sentiment(text: str) -> str:
+    """Predict the sentiment label for a given text."""
+    try:
+        label = sentiment_model.predict([text])[0]
+    except Exception as e:
+        st.error(f"⚠️ Sentiment prediction failed: {e}")
+        return "Unknown"
+    return label
 
-# ========== GENERATE RESPONSE FROM LLAMA ==========
-def generate_response(prompt, api_url="http://localhost:11434/api/generate", model="llama3.3"):
+# ========== LLaMA CBT RESPONSE ==========
+def generate_cbt_response(prompt: str,
+                          api_url: str = "http://localhost:11434/api/generate",
+                          model: str = "llama3.3-cbt") -> str:
     """
-    Uses LLaMA locally (via Ollama or other local LLM server).
+    Generate a CBT-style response using a fine-tuned LLaMA model via local API.
     """
     payload = {
         "model": model,
-        "prompt": f"You are a compassionate CBT therapist. Help the user based on this message:\n\n{prompt}\n\nReply empathetically and helpfully.",
+        "prompt": f"You are a compassionate CBT therapist. User says:\n{prompt}\nProvide an empathetic, CBT-based therapeutic response.",
         "max_tokens": 500,
-        "temperature": 0.7
+        "temperature": 0.7,
     }
     try:
-        response = requests.post(api_url, json=payload)
-        response.raise_for_status()
-        return response.json().get("response", "⚠️ Error: No response text.")
-    except Exception as e:
+        resp = requests.post(api_url, json=payload, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
+        return data.get("response", "⚠️ No response from LLaMA API.")
+    except requests.RequestException as e:
         return f"⚠️ Error contacting LLaMA API: {e}"
+    except ValueError:
+        return "⚠️ Invalid JSON received from LLaMA API."
 
 # ========== SESSION STATE ==========
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# ========== CHAT DISPLAY ==========
+# ========== CHAT UI ==========
 st.title("🧠 CBT Therapist Chatbot")
 st.markdown("Start chatting with your personal AI CBT therapist. ✨")
 
+# Display conversation
 for msg in st.session_state.messages:
     if msg["role"] == "user":
-        st.chat_message("user").markdown(f"🙋‍♂️ {msg['content']}")
+        st.chat_message("user").markdown(f"🙋‍♂️ **You:** {msg['content']}")
     else:
-        st.chat_message("assistant").markdown(f"🧠 {msg['content']}")
+        st.chat_message("assistant").markdown(f"🧠 **Therapist:** {msg['content']}")
 
-# ========== USER INPUT ==========
+# User input
 user_input = st.chat_input("Share what's on your mind...")
-
 if user_input:
-    # Add user message to chat history
+    # Append and display user message
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Predict sentiment
+    # Predict sentiment and display
     sentiment = predict_sentiment(user_input)
     st.info(f"🧭 Detected Sentiment: **{sentiment}**")
 
-    # Generate CBT-style therapist reply
+    # Generate and append therapist response
     with st.spinner("🧠 Therapist is thinking..."):
-        bot_response = generate_response(user_input)
+        bot_reply = generate_cbt_response(user_input)
+    st.session_state.messages.append({"role": "assistant", "content": bot_reply})
 
-    # Add bot response
-    st.session_state.messages.append({"role": "assistant", "content": bot_response})
+
