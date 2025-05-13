@@ -20,7 +20,7 @@
 
 This project implements a **Retrieval-Augmented Generation (RAG)** pipeline using:
 - ✅ `LangChain` for chaining LLMs & retrieval logic
-- ✅ `FAISS` or `Chroma` vector store for storing embeddings
+- ✅ `Chroma` vector store for storing embeddings
 - ✅ `OpenAI Embeddings` or any LLM provider for QnA
 
 ---
@@ -38,20 +38,11 @@ This project implements a **Retrieval-Augmented Generation (RAG)** pipeline usin
 | Tool | Role |
 |------|------|
 | **LangChain** | Chaining LLM with retrieval |
-| **FAISS/Chroma** | Vector database for document search |
-| **OpenAI / HuggingFace** | LLM provider |
-| **Jupyter Notebook** | Interactive development |
+| **Chroma** | Vector database for document search |
+| **HuggingFace** | LLM provider |
+| **Google Colab** | Interactive development |
 | **Python** | Core logic implementation |
 
 ---
 
-## 🗂️ Project Structure
-
-```bash
-.
-├── RAG_LLM_using_Langchain.ipynb    # 💻 Main Notebook
-├── output_1_vectorstore.png         # 📸 Screenshot 1
-├── output_2_retrieval.png           # 📸 Screenshot 2
-├── output_3_answer_generation.png   # 📸 Screenshot 3
-├── rag_architecture.png             # 📊 Architecture Image
-└── langchain_ecosystem.png          # 🌐 LangChain Overview
+   
