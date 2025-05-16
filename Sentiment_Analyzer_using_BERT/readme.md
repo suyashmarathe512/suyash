@@ -37,8 +37,8 @@ To set up the BERT Sentiment Analyzer on your local machine, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/pranayshekhar01/bert-sentiment-analyzer.git
-   cd bert-sentiment-analyzer
+   git clone https://github.com/suyashmarathe512/Sentiment_Analyzer_using_BERT.git
+   cd Sentiment_Analyzer_using_BERT
    ```
 
 2. **Install Required Packages**:
@@ -47,8 +47,6 @@ To set up the BERT Sentiment Analyzer on your local machine, follow these steps:
    pip install -r requirements.txt
    ```
 
-3. **Download the Model**:
-   You can download the latest release from the [Releases section](https://github.com/pranayshekhar01/bert-sentiment-analyzer/releases). Follow the instructions in the release notes to execute the model.
 
 ## Usage
 
@@ -114,7 +112,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For questions or suggestions, feel free to reach out:
 
-- **Email**: your-email@example.com
-- **GitHub**: [pranayshekhar01](https://github.com/pranayshekhar01)
+- **Email**: suyashmarathe1092003@gmail.com
+- **GitHub**: [suyashmarathe512](https://github.com/suyashmarathe512)
 
-For the latest updates and releases, check the [Releases section](https://github.com/pranayshekhar01/bert-sentiment-analyzer/releases).
+
