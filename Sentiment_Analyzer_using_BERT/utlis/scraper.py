@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import os
 
-OMDB_API_KEY = "ad0e3181"  # Replace with your own key if needed
+OMDB_API_KEY = "cca4a35e0f69c0862be922ac84891e86"  # Replace with your own key if needed
 
 def get_movie_id(title):
     url = f"http://www.omdbapi.com/?t={title}&apikey={OMDB_API_KEY}"
