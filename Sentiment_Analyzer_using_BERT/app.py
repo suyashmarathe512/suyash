@@ -174,7 +174,7 @@ elif streamlit.session_state.active_section == "imdb":
             with streamlit.spinner("Fetching data..."):
                 movie_id = get_movie_id(movie_title)
                 if movie_id:
-                    url = f"http://www.omdbapi.com/?i={movie_id}&apikey=ad0e3181"
+                    url = f"http://www.omdbapi.com/?i={movie_id}&apikey=cca4a35e0f69c0862be922ac84891e86"
                     response = requests.get(url)
                     movie_data = response.json()
                     poster_url = movie_data.get("Poster", None)
