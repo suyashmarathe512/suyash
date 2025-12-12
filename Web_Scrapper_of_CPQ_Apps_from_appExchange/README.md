@@ -1,4 +1,4 @@
-# OCR + Playwright CPQ Analyzer
+# OCR + Playwright CPQ Analyzer (Automation tool on AppExchange is not possible with free tools)
 
 A reproducible Colab notebook + helper scripts that use Playwright to capture Salesforce AppExchange listing tabs, run Tesseract OCR on the screenshots, compute term-frequency (TF) statistics, and save outputs for analysis and visualization.
 
